@@ -14,9 +14,9 @@ REQUIRED FOR ALL OF seadoo:
 - repo: Where the theory files are located. Each subdirectory name should match what is found in colore/ontologies/
 '''
 import os
-os.environ['PROVER9'] = r'C:\Users\gk 2\Prover9-Mace4\bin-win32'
+os.environ['PROVER9'] = r'enter path of prover9'
 
-path = "C:/Users/gk 2/summer research/seadoo-main"
+path = "enter path of seadoo folder here"
 repo = os.path.join(os.path.sep, path,  'ontologies')
 
 
@@ -42,7 +42,7 @@ db = {
     'host': 'localhost',
     'schema': 'seadoo', 
     'user': 'root', 
-    'pw': 'Pineapplecookies1!',
+    'pw': 'enter password here',
     'port': 3306,
 }
 
