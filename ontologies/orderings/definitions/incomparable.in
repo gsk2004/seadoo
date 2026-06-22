@@ -1,0 +1,6 @@
+(all x all y
+	((incomparable(x, y)
+	<->
+	(-(x = y))
+	& (-leq(x, y))
+	& (-leq(y, x))))).

@@ -1,0 +1,7 @@
+(all x all y all ...
+	((cycle(x, ..., y)
+	& odd_cycle(x, ..., y)
+	->
+	(exists z exists w exists u
+	(cycle(x, ..., z, w, u, ..., y)
+	& adj(z, u)))))).

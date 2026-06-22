@@ -1,0 +1,2 @@
+(exists x
+	(pendant(x))).

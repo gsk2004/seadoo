@@ -1,0 +1,6 @@
+(all x
+	((strong_atom(x)
+	<->
+	(exists y
+	(bottom(y)
+	& covers(x, y)))))).

@@ -1,0 +1,7 @@
+(all x
+	(((-bottom(x))
+	->
+	(exists y
+	(strong_atom(y)
+	& leq(y, x)))))).
+

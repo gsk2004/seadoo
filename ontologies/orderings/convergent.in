@@ -1,0 +1,8 @@
+(all w all u all v
+	((leq(w, u)
+	& leq(w, v)
+	->
+	(exists x
+	(leq(u, x)
+	& leq(v, x)))))).
+

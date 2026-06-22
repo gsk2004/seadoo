@@ -1,0 +1,9 @@
+(all x all y all z all w
+	((leq(x, y)
+	& leq(z, y)
+	& leq(z, w)
+	->
+	(-incomparable(x, w))
+	| (-incomparable(y, w))
+	| (-incomparable(x, z))))).
+

@@ -1,0 +1,4 @@
+formulas(assumptions).
+ancestorOf(Alice,Bob).
+ancestorOf(Bob,Alice).
+end_of_list.

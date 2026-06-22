@@ -1,0 +1,10 @@
+(exists x
+	((all y
+	(adj(x, y)
+	| (x = y)))))
+(all x all y all z
+	((adj(x, y)
+	& adj(y, z)
+	& adj(x, z)
+	->
+	(x = z)))).

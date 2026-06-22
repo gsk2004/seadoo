@@ -1,0 +1,6 @@
+(all p
+	((exists q exists r
+	(leq(q, p)
+	& leq(r, p)
+	& (-compatible(q, r)))))).
+

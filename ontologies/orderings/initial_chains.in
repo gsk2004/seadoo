@@ -1,0 +1,5 @@
+(all x
+	((exists y
+	(minimal(y)
+	& leq(y, x))))).
+

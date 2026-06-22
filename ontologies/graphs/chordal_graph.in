@@ -1,0 +1,7 @@
+(all x all y all z all w all ...
+	((cycle(x, y, z, w, ...)
+	->
+	(exists u exists v
+	(path(x, ..., u, ..., w)
+	& path(x, ..., v, ..., w)
+	& adj(u, v)))))).

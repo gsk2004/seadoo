@@ -1,0 +1,6 @@
+(all x all y all z
+	((lt(x, y)
+	->
+	lt(x, z)
+	| lt(z, y)))).
+

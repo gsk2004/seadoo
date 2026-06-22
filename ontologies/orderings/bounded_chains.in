@@ -1,0 +1,11 @@
+(all x
+	(minimal(x)
+	| (exists y
+	(minimal(y)
+	& lt(y, x)))))
+(all x
+	(maximal(x)
+	| (exists y
+	(maximal(y)
+	& lt(x, y))))).
+

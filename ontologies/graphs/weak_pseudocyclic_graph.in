@@ -1,0 +1,8 @@
+(all p1 all p2 all p4
+	((adj(p1, p2)
+	& adj(p1, p4)
+	& (-(p2 = p4))
+	->
+	(exists p3
+	(adj(p2, p3)
+	& (-(p3 = p1))))))).

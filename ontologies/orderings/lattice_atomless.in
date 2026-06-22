@@ -1,0 +1,7 @@
+(all x
+	(((-bottom(x))
+	->
+	(exists y
+	(bottom(y)
+	& (-covers(x, y))))))).
+

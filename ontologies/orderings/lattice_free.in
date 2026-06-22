@@ -1,0 +1,9 @@
+(all x all y all z all u
+	((leq(u, y)
+	& leq(z, y)
+	& leq(x, u)
+	& leq(x, z)
+	->
+	leq(u, z)
+	| leq(z, u)))).
+

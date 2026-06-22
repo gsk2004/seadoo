@@ -1,0 +1,127 @@
+(all x all y all z all ...
+	((walk(x, ..., y, z)
+	<->
+	walk(x, ..., y)
+	& adj(y, z))))
+(all x all y
+	((walk(x, y)
+	<->
+	adj(x, y))))
+(all x all y all ...
+	((cycle(x, ..., y)
+	<->
+	path(x, ..., y)
+	& adj(x, y))))
+(all x all y
+	((cycle(x, y)
+	<->
+	(exists z
+	(adj(x, z)
+	& adj(z, y))))))
+(all x all y all z all ...
+	((path(x, ..., y, z)
+	<->
+	path(x, ..., y)
+	& (-(x = y))
+	& adj(y, z))))
+(all x all y
+	((path(x, y)
+	<->
+	adj(x, y)
+	& (-(x = y)))))
+(all x all y all z all ...
+	((nontrivial_cycle(x, ..., y, z)
+	<->
+	path(x, ..., y)
+	& (-(x = y))
+	& (-(x = z))
+	& (-(z = y))
+	& adj(y, z))))
+(all x all y all z
+	((nontrivial_cycle(x, y, z)
+	<->
+	adj(x, y)
+	& adj(y, z)
+	& adj(x, z)
+	& (-(x = y))
+	& (-(x = z))
+	& (-(z = y)))))
+(all x all y all ...
+	((odd_cycle(x, ..., y)
+	<->
+	even_path(x, ..., y)
+	& adj(x, y))))
+(all x all y all ...
+	((even_cycle(x, ..., y)
+	<->
+	odd_path(x, ..., y)
+	& adj(x, y))))
+even_path
+(-odd_path)
+(all x
+	((-even_path(x))))
+(all x
+	(odd_path(x)))
+(all x all y all ...
+	((odd_path(..., y, x)
+	<->
+	adj(x, y)
+	& even_path(..., y))))
+(all x all y all ...
+	((even_path(..., y, x)
+	<->
+	adj(x, y)
+	& odd_path(..., y))))
+(all x all y all z all ...
+	((complement_path(x, ..., y, z)
+	<->
+	complement_path(x, ..., y)
+	& (-adj(y, z)))))
+(all x all y
+	((complement_path(x, y)
+	<->
+	(-adj(x, y)))))
+(all x all y all ...
+	((complement_cycle(x, ..., y)
+	<->
+	complement_path(x, ..., y)
+	& (-adj(x, y)))))
+(all x all y all z
+	((complement_cycle(x, z)
+	<->
+	(-adj(x, y))
+	& (-adj(y, z)))))
+(all x all y all ...
+	((complement_odd_cycle(x, ..., y)
+	<->
+	complement_even_path(x, ..., y)
+	& (-adj(x, y)))))
+(all x all y all ...
+	((complement_even_cycle(x, ..., y)
+	<->
+	complement_odd_path(x, ..., y)
+	& (-adj(x, y)))))
+complement_even_path
+(-complement_odd_path)
+(all x
+	((-complement_even_path(x))))
+(all x
+	(complement_odd_path(x)))
+(all x all y all ...
+	((complement_odd_path(..., y, x)
+	<->
+	(-adj(x, y))
+	& complement_even_path(..., y))))
+(all x all y all ...
+	((complement_even_path(..., y, x)
+	<->
+	(-adj(x, y))
+	& complement_odd_path(..., y))))
+(all x
+	((leaf(x)
+	<->
+	(all y all z
+	((adj(x, y)
+	& adj(x, z)
+	->
+	(y = z))))))).

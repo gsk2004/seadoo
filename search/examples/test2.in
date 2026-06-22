@@ -1,0 +1,12 @@
+ancestorOf(John,Bob).
+ancestorOf(Bob,Carol).
+ancestorOf(John,Carol).
+ancestorOf(John,John).
+ancestorOf(Bob,Bob).
+ancestorOf(Carol,Carol).
+poloPartner(John,Carol).
+poloPartner(Carol,John).
+poloPartner(John,Bob).
+poloPartner(Bob,John).
+poloPartner(Carol,Bob).
+poloPartner(Bob,Carol).

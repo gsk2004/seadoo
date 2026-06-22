@@ -1,0 +1,3 @@
+formulas(assumptions).
+all x all y (hasSpouse(x,y) <-> adj(x,y)).
+end_of_list.

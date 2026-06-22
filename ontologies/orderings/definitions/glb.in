@@ -1,0 +1,10 @@
+(all x all y all s
+	((glb(x, y, s)
+	<->
+	leq(s, x)
+	& leq(s, y)
+	& (all z
+	((leq(z, x)
+	& leq(z, y)
+	->
+	leq(z, s))))))).

@@ -1,0 +1,7 @@
+(all x all y
+	((lt(x, y)
+	->
+	(exists z
+	(lt(x, z)
+	& lt(z, y)))))).
+

@@ -1,0 +1,8 @@
+(all x all y all z
+	((incomparable(x, y)
+	& incomparable(x, z)
+	& incomparable(y, z)
+	& lt_equiv(x, y)
+	->
+	(-lt_equiv(x, z))))).
+

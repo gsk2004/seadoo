@@ -1,0 +1,6 @@
+(all x
+	((strong_coatom(x)
+	<->
+	(exists y
+	(top(y)
+	& covers(y, x)))))).

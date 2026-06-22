@@ -1,0 +1,5 @@
+undirected_graph,empty_graph
+undirected_graph,simple_graph,split_graph
+undirected_graph,simple_graph,interval_graph
+undirected_graph,graph_loops
+undirected_graph,scattered_edge

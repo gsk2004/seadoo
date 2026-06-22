@@ -1,0 +1,5 @@
+(all x
+	((pendant(x)
+	<->
+	leaf(x)
+	& (-isolated_vertex(x))))).

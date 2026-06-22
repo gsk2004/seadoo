@@ -1,0 +1,10 @@
+(all x all y
+	((exists j
+	(leq(x, j)
+	& leq(y, j)
+	& (all z
+	((leq(x, z)
+	& leq(y, z)
+	->
+	leq(j, z)))))))).
+

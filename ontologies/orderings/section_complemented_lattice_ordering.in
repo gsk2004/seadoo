@@ -1,0 +1,7 @@
+(all y all x
+	((lt(y, x)
+	->
+	(exists z
+	(lub(y, z, x)
+	& noverlaps(y, z)))))).
+

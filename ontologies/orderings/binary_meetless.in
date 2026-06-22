@@ -1,0 +1,13 @@
+(all x all y all z
+	((incomparable(x, y)
+	& incomparable(y, z)
+	& incomparable(x, z)
+	->
+	dhm(x, y, z)
+	| dhm(y, z, x)
+	| dhm(z, x, y)
+	| (exists u
+	(glb(x, y, u)
+	| glb(y, z, u)
+	| glb(x, z, u)))))).
+

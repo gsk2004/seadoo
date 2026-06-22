@@ -1,0 +1,10 @@
+(all x all y all z
+	((leq(x, z)
+	& leq(y, z)
+	& incomparable(x, y)
+	->
+	(exists u
+	(leq(x, u)
+	& leq(y, u)
+	& lt(u, z)))))).
+

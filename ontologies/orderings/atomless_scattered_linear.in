@@ -1,0 +1,15 @@
+(all x all y
+	((lt(x, y)
+	& (-top(y))
+	->
+	(exists z
+	(covers(y, z)
+	& leq(x, z))))))
+(all x all y
+	((lt(x, y)
+	& (-bottom(x))
+	->
+	(exists z
+	(covers(z, x)
+	& leq(z, y)))))).
+

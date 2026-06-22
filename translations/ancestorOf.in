@@ -1,0 +1,3 @@
+formulas(assumptions).
+all x all y (ancestorOf(x,y) <-> leq(x,y)).
+end_of_list.

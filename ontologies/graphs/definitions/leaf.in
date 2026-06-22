@@ -1,0 +1,10 @@
+(all x
+	((leaf(x)
+	<->
+	(all y all z
+	((adj(x, y)
+	& (-(x = y))
+	& (-(x = z))
+	& adj(x, z)
+	->
+	(y = z))))))).

@@ -1,0 +1,10 @@
+(all x all y all z all w
+	((lt(x, y)
+	& lt(x, w)
+	& lt(w, y)
+	& lt(x, z)
+	& lt(z, y)
+	->
+	leq(w, z)
+	| leq(z, w)))).
+

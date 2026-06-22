@@ -1,0 +1,5 @@
+(all x
+	((minimal(x)
+	<->
+	(-(exists y
+	(lt(y, x))))))).

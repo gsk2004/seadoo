@@ -1,0 +1,8 @@
+(all x
+	((atom(x)
+	<->
+	(-bottom(x))
+	& (all y
+	((lt(y, x)
+	->
+	bottom(y))))))).

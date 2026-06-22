@@ -1,0 +1,6 @@
+quasiorder,partial_ordering,linear_ordering,discrete_linear,final_discrete_linear
+quasiorder,partial_ordering,linear_ordering,discrete_linear
+quasiorder,partial_ordering,discrete_partial,discrete_linear
+quasiorder,partial_ordering,minexists
+quasiorder,maxexists
+quasiorder,quasi_order

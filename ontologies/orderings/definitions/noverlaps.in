@@ -1,0 +1,8 @@
+(all x all y
+	((noverlaps(x, y)
+	<->
+	(all z
+	((leq(z, x)
+	& leq(z, y)
+	->
+	bottom(z))))))).

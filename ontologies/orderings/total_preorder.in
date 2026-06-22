@@ -1,0 +1,5 @@
+(all x all y all z
+	(leq(x, y)
+	| leq(y, x)
+	| (x = y))).
+

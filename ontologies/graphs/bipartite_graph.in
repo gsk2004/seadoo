@@ -1,0 +1,4 @@
+(all x all y all ...
+	((cycle(x, ..., y)
+	->
+	even_cycle(x, ..., y)))).

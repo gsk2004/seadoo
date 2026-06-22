@@ -1,0 +1,14 @@
+(all x all y
+	((lt(x, y)
+	->
+	(exists u exists v
+	(incomparable(u, v)
+	& lt(x, u)
+	& incomparable(u, y)
+	& (-(exists z
+	(glb(u, y, z))))
+	& lt(x, v)
+	& incomparable(v, y)
+	& (-(exists z
+	(glb(v, y, z))))))))).
+

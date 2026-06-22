@@ -1,0 +1,9 @@
+(all x all y all z all u
+	((incomparable(y, u)
+	& incomparable(y, z)
+	& incomparable(z, u)
+	& glb(y, z, x)
+	& glb(y, u, x)
+	->
+	(-glb(z, u, x))))).
+

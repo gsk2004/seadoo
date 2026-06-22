@@ -1,0 +1,7 @@
+(all x all y
+	((lt(x, y)
+	->
+	(exists u
+	(lt(u, y)
+	& incomparable(u, x)))))).
+

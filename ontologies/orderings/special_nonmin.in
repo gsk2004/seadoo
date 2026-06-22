@@ -1,0 +1,25 @@
+(all x
+	((exists y
+	(incomparable(x, y)
+	& (all z
+	((lt(z, y)
+	& incomparable(z, x)
+	->
+	(exists u
+	(lt(u, z)
+	& incomparable(u, x))))))))))
+(all x all y all z
+	((incomparable(x, y)
+	& incomparable(x, z)
+	& incomparable(y, z)
+	->
+	(exists u
+	(lt(u, y)
+	& lt(u, z)
+	& (all w
+	((lt(w, x)
+	& lt(w, y)
+	& lt(w, z)
+	->
+	lt(w, u))))))))).
+

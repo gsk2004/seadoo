@@ -1,0 +1,7 @@
+formulas(assumptions).
+all x (leq(x,x)).
+all x all y all z (leq(x,y) & leq(y,z) -> leq(x,z)).
+all x all y (lt(x,y) <-> (leq(x,y) & -leq(y,x))).
+all x (minimal(x) <-> -exists y (lt(y,x))).
+all x (exists y (minimal(y) & leq(y,x))).
+end_of_list.

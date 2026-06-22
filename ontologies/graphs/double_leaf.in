@@ -1,0 +1,8 @@
+(all x all y all z
+	((pendant(x)
+	& pendant(y)
+	& pendant(z)
+	->
+	(x = y)
+	| (x = z)
+	| (y = z)))).

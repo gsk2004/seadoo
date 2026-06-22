@@ -1,0 +1,5 @@
+(all x
+	((bottom(x)
+	<->
+	(all y
+	(leq(x, y)))))).

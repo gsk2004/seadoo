@@ -1,0 +1,4 @@
+(all x
+	((exists y
+	((-leq(y, x)))))).
+

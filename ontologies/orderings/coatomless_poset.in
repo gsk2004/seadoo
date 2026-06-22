@@ -1,0 +1,6 @@
+(all x all y
+	((bottom(x)
+	& top(y)
+	->
+	lt(x, y)))).
+

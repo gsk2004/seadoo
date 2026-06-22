@@ -1,0 +1,12 @@
+(all x
+	((exists y
+	(noverlaps(x, y)
+	& (all z
+	((noverlaps(x, z)
+	->
+	leq(z, y))))
+	& (all z
+	((noverlaps(z, y)
+	->
+	leq(z, x)))))))).
+

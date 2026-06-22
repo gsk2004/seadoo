@@ -1,0 +1,7 @@
+(all x all a
+	((lt(x, a)
+	->
+	(exists y
+	(lt(y, a)
+	& noverlaps(x, y)))))).
+

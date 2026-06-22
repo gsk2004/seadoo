@@ -1,0 +1,5 @@
+(all x
+	((exists y exists z
+	(adj(x, y)
+	& adj(x, z)
+	& (-(y = z)))))).

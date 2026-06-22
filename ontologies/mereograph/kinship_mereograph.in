@@ -1,0 +1,11 @@
+formulas(assumptions).
+all x (leq(x,x)).
+all x all y all z (leq(x,y) & leq(y,z) -> leq(x,z)).
+all x all y (leq(x,y) & leq(y,x) -> x = y).
+all x all y all z all u (leq(u,y) & leq(z,y) & leq(x,u) & leq(x,z) -> (leq(u,z) | leq(z,u))).
+all x all y (adj(x,y) -> adj(y,x)).
+all x (-adj(x,x)).
+all x all y all z (adj(x,y) & adj(x,z) -> y = z).
+all x all y (overlaps(x,y) <-> exists z (leq(z,x) & leq(z,y))).
+all x all y (overlaps(x,y) -> -adj(x,y)).
+end_of_list.

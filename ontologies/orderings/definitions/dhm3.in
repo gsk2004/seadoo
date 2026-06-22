@@ -1,0 +1,8 @@
+(all x all y all z all u
+	((dhm3(x, y, z, u)
+	<->
+	(exists w
+	(lt(w, x)
+	& lt(w, y)
+	& lt(w, z)
+	& incomparable(w, u)))))).

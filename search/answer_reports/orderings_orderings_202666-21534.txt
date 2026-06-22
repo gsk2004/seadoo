@@ -1,0 +1,17 @@
+SEADOO Hashemi Search Answer Report
+Timestamp: 202663-21534
+
+Examples provided: test1.in, test2.in, test3.in
+Counterexamples provided: counter1.in
+
+Hierarchy/ies match: orderings
+
+Results for orderings hierarchy:
+chain 1: no bracket found
+chain 2: no bracket found
+chain 3: no bracket found
+chain 4: no bracket found
+chain 5: no bracket found
+
+
+No best match exists.

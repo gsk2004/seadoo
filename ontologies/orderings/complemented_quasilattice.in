@@ -1,0 +1,7 @@
+(all x
+	(((-top(x))
+	->
+	(exists y
+	(noverlaps(x, y)
+	& nunderlaps(x, y)))))).
+

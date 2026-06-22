@@ -1,0 +1,5 @@
+(all x all y
+	((leq(x, y)
+	->
+	(x = y)))).
+

@@ -1,0 +1,7 @@
+(all x
+	(((-top(x))
+	->
+	(exists y
+	(strong_coatom(y)
+	& leq(x, y)))))).
+

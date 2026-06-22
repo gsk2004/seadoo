@@ -1,0 +1,12 @@
+(all x all y
+	((comp(x, y)
+	<->
+	disjoint(x, y)
+	& (all z
+	((disjoint(x, z)
+	->
+	leq(z, y))))
+	& (all z
+	((disjoint(z, y)
+	->
+	leq(z, x))))))).

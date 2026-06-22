@@ -1,0 +1,7 @@
+(all x all y
+	(((all z
+	((adj(x, z)
+	<->
+	adj(y, z))))
+	->
+	(x = y)))).

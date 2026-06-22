@@ -1,0 +1,13 @@
+(all x all y all z all u
+	((incomparable(x, y)
+	& incomparable(y, z)
+	& incomparable(x, z)
+	& incomparable(x, u)
+	& incomparable(y, u)
+	& incomparable(z, u)
+	->
+	dhm3(x, y, z, u)
+	| dhm3(y, z, u, x)
+	| dhm3(z, u, x, y)
+	| dhm3(u, x, y, z)))).
+

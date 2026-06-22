@@ -1,0 +1,9 @@
+(all a all b
+	(((-leq(b, a))
+	->
+	(exists x
+	(leq(a, x)
+	& (-(exists z
+	(leq(x, z)
+	& leq(b, z))))))))).
+

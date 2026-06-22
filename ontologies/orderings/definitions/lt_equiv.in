@@ -1,0 +1,7 @@
+(all x all y
+	((lt_equiv(x, y)
+	<->
+	(all z
+	((lt(z, x)
+	<->
+	lt(z, y))))))).

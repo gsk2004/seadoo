@@ -1,0 +1,5 @@
+(all a all x
+	((top(x)
+	->
+	(-covers(x, a))))).
+

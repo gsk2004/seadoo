@@ -1,0 +1,8 @@
+(all x
+	((coatom(x)
+	<->
+	(-top(x))
+	& (all y
+	((lt(x, y)
+	->
+	top(y))))))).

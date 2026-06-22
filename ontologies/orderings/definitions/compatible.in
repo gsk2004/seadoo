@@ -1,0 +1,6 @@
+(all x all y
+	((compatible(x, y)
+	<->
+	(exists z
+	(leq(z, x)
+	& leq(z, y)))))).

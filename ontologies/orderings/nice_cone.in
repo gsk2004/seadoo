@@ -1,0 +1,11 @@
+(all x all y all u
+	((incomparable(x, y)
+	->
+	(exists z
+	(lt(z, x)
+	& incomparable(z, y)))
+	| (exists u exists v
+	(leq(u, x)
+	& leq(v, y)
+	& lt_equiv(u, v)))))).
+

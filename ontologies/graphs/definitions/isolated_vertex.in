@@ -1,0 +1,7 @@
+(all x
+	((isolated_vertex(x)
+	<->
+	(all y
+	((adj(x, y)
+	->
+	(y = x))))))).

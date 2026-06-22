@@ -1,0 +1,7 @@
+(all x all y
+	((covers(y, x)
+	<->
+	lt(x, y)
+	& (-(exists z
+	(lt(x, z)
+	& lt(z, y))))))).

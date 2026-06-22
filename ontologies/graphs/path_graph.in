@@ -1,0 +1,4 @@
+(exists x exists y
+	(pendant(x)
+	& pendant(y)
+	& (-(x = y)))).

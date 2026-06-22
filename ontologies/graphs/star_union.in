@@ -1,0 +1,13 @@
+(all x all y all z
+	((adj(x, z)
+	& adj(x, y)
+	& (-(y = z))
+	->
+	(-adj(y, z)))))
+(all x all y all z all w
+	((adj(x, z)
+	& adj(x, y)
+	& (-(y = z))
+	& adj(z, w)
+	->
+	(w = x)))).

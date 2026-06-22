@@ -1,0 +1,6 @@
+(all x all y all z
+	((incomparable(x, y)
+	& incomparable(y, z)
+	->
+	incomparable(x, z)))).
+

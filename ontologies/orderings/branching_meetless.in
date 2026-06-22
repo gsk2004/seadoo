@@ -1,0 +1,9 @@
+(all x all y
+	((lt(x, y)
+	->
+	(exists u
+	(lt(x, u)
+	& incomparable(u, y)
+	& (-(exists z
+	(glb(u, y, z))))))))).
+

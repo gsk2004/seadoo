@@ -1,0 +1,5 @@
+ancestorOf(Caroline,Bob).
+ancestorOf(Bob,Bob).
+ancestorOf(Caroline,Caroline).
+hasSpouse(Caroline,David).
+hasSpouse(David,Caroline).

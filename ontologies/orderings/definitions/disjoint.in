@@ -1,0 +1,6 @@
+(all x all y
+	((disjoint(x, y)
+	<->
+	(-(exists z
+	(leq(z, x)
+	& leq(z, y))))))).

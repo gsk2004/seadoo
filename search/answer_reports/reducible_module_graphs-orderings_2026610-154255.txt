@@ -1,0 +1,26 @@
+SEADOO Hashemi Search Answer Report
+Timestamp: 2026610-154255
+
+Examples provided: test1.in, test2.in, test3.in
+Counterexamples provided: counter1.in
+
+Hierarchy/ies match: graphs-orderings
+
+Results for graphs hierarchy:
+chain 1: no bracket found
+chain 2: no bracket found
+chain 3: no bracket found
+chain 4: no bracket found
+
+
+No best match exists.
+
+Results for orderings hierarchy:
+chain 1: no bracket found
+chain 2: no bracket found
+chain 3: no bracket found
+chain 4: no bracket found
+chain 5: no bracket found
+
+
+No best match exists.

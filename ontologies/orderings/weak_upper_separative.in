@@ -1,0 +1,9 @@
+(all x all y
+	((lt(x, y)
+	->
+	(exists z
+	(leq(x, z)
+	& (-(exists w
+	(leq(z, w)
+	& leq(y, w))))))))).
+

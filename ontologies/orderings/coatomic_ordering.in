@@ -1,0 +1,7 @@
+(all x
+	(((-bottom(x))
+	->
+	(exists y
+	(coatom(y)
+	& leq(y, x)))))).
+

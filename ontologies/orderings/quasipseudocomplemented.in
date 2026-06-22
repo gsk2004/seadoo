@@ -1,0 +1,10 @@
+(all t
+	(((-top(t))
+	->
+	(exists y
+	(noverlaps(t, y)
+	& (all x
+	((noverlaps(t, x)
+	->
+	leq(x, y))))))))).
+

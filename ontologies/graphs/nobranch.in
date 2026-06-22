@@ -1,0 +1,8 @@
+(all x all y all z all w
+	((adj(x, y)
+	& adj(x, z)
+	& adj(x, w)
+	->
+	(y = z)
+	| (y = w)
+	| (z = w)))).

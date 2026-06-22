@@ -1,0 +1,15 @@
+(all x all y all z
+	((leq(x, y)
+	& leq(x, z)
+	->
+	leq(y, z)
+	| leq(z, y)
+	| (z = y))))
+(all x all y all z
+	((leq(x, y)
+	& leq(z, y)
+	->
+	leq(x, z)
+	| leq(z, x)
+	| (x = z)))).
+
