@@ -1,3 +1,11 @@
 {
-    "python.analysis.autoImportCompletions": true
+    "python.analysis.autoImportCompletions": true,
+
+    
+    "files.exclude": {
+        "**/.devcontainer": false,
+        "**/.github": false,
+        "**/.gitignore": false
+    }
+
 }

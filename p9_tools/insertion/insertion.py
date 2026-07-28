@@ -20,7 +20,7 @@ def insertion(chain, in_chain, new_t=config.new_t):
     found = False
 
     for i, t in enumerate(in_chain):
-        rel = relationship.main(new_t, t)
+        rel = relationship.main(t1_file=new_t, t2_file=t)
 
         if rel == "entails_t1_t2":
             bottom.append(chain[i])
@@ -62,7 +62,7 @@ def insertion(chain, in_chain, new_t=config.new_t):
 
 def find_position(chain, low, high, new_t=config.new_t):
     if low == high:
-        compare_low = relationship.main(new_t, chain[low])
+        compare_low = relationship.main(t1_file=new_t, t2_file=chain[low])
         if compare_low == "entails_t1_t2":
             return low + 1
         elif compare_low == "entails_t2_t1":
@@ -74,7 +74,7 @@ def find_position(chain, low, high, new_t=config.new_t):
         return low
 
     mid = (low+high)//2
-    compare_mid = relationship.main(new_t, chain[mid])
+    compare_mid = relationship.main(t1_file=new_t, t2_file=chain[mid])
 
     # middle value
     if "equivalent" in compare_mid:

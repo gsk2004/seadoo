@@ -74,6 +74,13 @@ def nondecomp() -> dict:
                 map_axiom = '(all x all y ((' + key + '(x,y) <-> ' + rel + '(x,y))))'
                 nd_map[key]['asser'].append(map_axiom)
 
+            ####debugging
+            print('  checking against hierarchy:', hier['hierarchy_name'])
+            print('  root theory path:', rt_path)
+            print('  assertions being tested:', nd_map[key]['asser'])
+            
+            ####
+
             # consistency check with examples 
             rt_lines = theory.theory_setup(rt_path)
             consistent = relationship.consistency(nd_map[key]['asser'], rt_lines, new_dir="")
@@ -82,6 +89,10 @@ def nondecomp() -> dict:
             else: 
                 # remove mapping axiom for this hierarchy 
                 nd_map[key]['asser'].remove(map_axiom)
+            
+            ##debugging
+            print('  theory lines:', rt_lines)
+            ##
 
         if nd_map[key]['nd'] is None: 
             print('inconsistent with all nd hierarchies')
@@ -92,7 +103,7 @@ def nondecomp() -> dict:
 
 def get_trunk_theories(hier: str) -> list: 
     trunk_theory_list = []
-    path = os.path.join(os.path.sep, REPO_PATH, hier, hier + ".csv")
+    path = os.path.join(os.path.sep, REPO_PATH, hier, hier + ".csv") #change ater, chain_decomposition.csv
     try:
         trunk_df = pd.read_csv(path, usecols=[1]).values.tolist()
     except FileNotFoundError: 

@@ -9,16 +9,54 @@ from p9_tools.relationship import files
 from p9_tools.parse import theory
 
 from nltk.sem import Expression
-read_expr = Expression.fromstring
+import re
+
+
+def _preprocess(s):
+    """
+    macleod/LADR output uses two constructs NLTK's FOL parser can't read
+    directly, both fixed here before handing the string to Expression.fromstring:
+      1. Prefix equality =(A,B) -> infix (A = B). Scans for the matching
+         close-paren instead of a naive split, so it works with nested terms.
+      2. A bare quantifier over a single atomic predicate with no connectives,
+         e.g. '(all x  leq(x,x))' -- NLTK needs an explicit '.' after the
+         bound variable to know where the variable list ends.
+    """
+    out, i = [], 0
+    while i < len(s):
+        if s[i:i + 2] == '=(':
+            depth, j, start_a, comma_idx = 1, i + 2, i + 2, None
+            while j < len(s) and depth > 0:
+                if s[j] == '(':
+                    depth += 1
+                elif s[j] == ')':
+                    depth -= 1
+                    if depth == 0:
+                        break
+                elif s[j] == ',' and depth == 1 and comma_idx is None:
+                    comma_idx = j
+                j += 1
+            if comma_idx is not None and j < len(s):
+                a, b = s[start_a:comma_idx], s[comma_idx + 1:j]
+                out.append('({} = {})'.format(_preprocess(a), _preprocess(b)))
+                i = j + 1
+                continue
+        out.append(s[i])
+        i += 1
+    s = ''.join(out)
+    return re.sub(r'\b(all|exists)\s+([a-zA-Z0-9_]+)\s+', r'\1 \2 . ', s)
+
+
+read_expr = lambda s: Expression.fromstring(_preprocess(s))
 
 CREATE_FILES = config.create_files
-FILE_PATH = config.repo
+FILE_PATH = config.hierarchy
 DEFINITIONS_PATH = config.definitions
 ALT_FILE = config.alt
 META_FILE = config.meta
 
 
-#@timeout_decorator.timeout(30)
+@timeout_decorator.timeout(30)
 def build_model(mb: MaceCommand): 
     return mb.build_model()
 
@@ -169,7 +207,7 @@ def oracle(hier, t1_file, t2_file, lines_t1, lines_t2, new_dir):
     if consistent == "inconclusive":
         files.owl("inconclusive")
         if new_dir:
-            files.delete_dir(os.path.join(FILE_PATH, hier, new_dir))
+            files.delete_dir(os.path.join(FILE_PATH, new_dir))
         rel = "inconclusive_t1_t2"
 
     elif consistent:
@@ -219,9 +257,12 @@ def oracle(hier, t1_file, t2_file, lines_t1, lines_t2, new_dir):
 
 # main program
 def main(hier=config.hierarchy, t1_file=config.t1, t2_file=config.t2):
-    # check if relationship has been documented in owl file
-    check_rel = files.check()
-
+    # NOTE: files.check() used to be called here to look up whether this
+    # relationship was already documented in the OWL file, but its result
+    # was always immediately overwritten below and never used -- so the call
+    # was pure dead weight, and it crashed on every invocation anyway (see
+    # files.py's fix for why). Removed rather than fixed, since it did
+    # nothing functional to begin with.
     check_rel = "nf"
 
     # nf = relationship not found in the file
@@ -238,7 +279,7 @@ def main(hier=config.hierarchy, t1_file=config.t1, t2_file=config.t2):
             for rel in possibilities:
                 dir_12 = rel + "_" + t1 + "_" + t2
                 dir_21 = rel + "_" + t2 + "_" + t1
-                if os.path.isdir(os.path.join(FILE_PATH, hier, dir_12)) or os.path.isdir(os.path.join(FILE_PATH, hier, dir_21)):
+                if os.path.isdir(os.path.join(FILE_PATH, dir_12)) or os.path.isdir(os.path.join(FILE_PATH, dir_21)):
                     print("directory name", dir_12, "or", dir_21, "already exists. cannot create directory with "
                                                                   "proofs and models unless renamed.")
                     exists = True
@@ -248,7 +289,7 @@ def main(hier=config.hierarchy, t1_file=config.t1, t2_file=config.t2):
             if not exists:
                 try:
                     new_dir = t1 + "_" + t2
-                    os.mkdir(os.path.join(FILE_PATH, hier, new_dir))
+                    os.mkdir(os.path.join(FILE_PATH, new_dir))
                 except OSError:
                     print("directory name", new_dir, "already exists. cannot create directory with proofs and "
                                                      "models unless renamed.")
@@ -259,8 +300,8 @@ def main(hier=config.hierarchy, t1_file=config.t1, t2_file=config.t2):
         else:
             new_dir = ""
 
-        lines_t1 = theory.theory_setup(os.path.join(FILE_PATH, hier, t1_file))
-        lines_t2 = theory.theory_setup(os.path.join(FILE_PATH, hier, t2_file))
+        lines_t1 = theory.theory_setup(os.path.join(FILE_PATH, t1_file))
+        lines_t2 = theory.theory_setup(os.path.join(FILE_PATH, t2_file))
 
         relationship = ""
         if lines_t1 and lines_t2: 

@@ -33,7 +33,13 @@ def owl(rel, t1=T1, t2=T2):
     l2 = " :" + t1 + " :" + t2 + ")\n\n"
     syntax1 = l1 + l2
 
-    f = open(ALT_FILE, "r")
+    try:
+        f = open(ALT_FILE, "r")
+    except FileNotFoundError:
+        print("NOTE: ALT_FILE not found ({}) -- skipping OWL audit-trail "
+              "logging for this relationship. The actual chain_decomposition.csv "
+              "insertion is unaffected.".format(ALT_FILE))
+        return
     alt_lines = f.readlines()
     f.close()
 
@@ -58,7 +64,13 @@ def owl(rel, t1=T1, t2=T2):
     l8 = "ObjectPropertyAssertion(:" + rel + " :" + t1 + " :" + t2 + ")\n\n"
     syntax2 = l4 + l5 + l6 + l7 + l8
 
-    f = open(META_FILE, "r")
+    try:
+        f = open(META_FILE, "r")
+    except FileNotFoundError:
+        print("NOTE: META_FILE not found ({}) -- skipping OWL audit-trail "
+              "logging for this relationship. The actual chain_decomposition.csv "
+              "insertion is unaffected.".format(META_FILE))
+        return
     meta_lines = f.readlines()
     f.close()
 
@@ -91,20 +103,18 @@ def check():
                 "independent",
                 "equivalent"]
 
-    with open(META_FILE, "r") as file3:
+    try:
+        file3 = open(META_FILE, "r")
+    except FileNotFoundError:
+        return "nf"
+
+    with file3:
         all_relations = file3.readlines()
         for r in all_relations:
             for p in possible:
                 if "ObjectPropertyAssertion(:" + p + " :" + t1 + " :" + t2 + ")" in r:
-                    relationship = p + "_t1_t2"
-                    file3.close()
-                    return relationship
+                    return p + "_t1_t2"
                 elif "ObjectPropertyAssertion(:" + p + " :" + t2 + " :" + t1 + ")" in r:
-                    relationship = p + "_t2_t1"
-                    file3.close()
-                    return relationship
-    file3.close()
+                    return p + "_t2_t1"
     # nf = not found
     return "nf"
-
-

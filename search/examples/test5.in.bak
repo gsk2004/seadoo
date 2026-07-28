@@ -1,0 +1,6 @@
+formulas(assumptions).
+hasSpouse(Caroline,David).
+hasSpouse(David,Caroline).
+hasFriend(David,Jim).
+hasFriend(Jim,David).
+end_of_list.

@@ -1,0 +1,4 @@
+formulas(assumptions).
+hasChildren(Caroline,Bob).
+hasSpouse(Caroline,Bob).
+end_of_list.

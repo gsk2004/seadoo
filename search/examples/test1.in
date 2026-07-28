@@ -1,5 +1,8 @@
 ancestorOf(Caroline,Bob).
 ancestorOf(Caroline,Alice).
+ancestorOf(Caroline,Caroline).
+ancestorOf(Bob,Bob).
+ancestorOf(Alice,Alice).
 -ancestorOf(Bob,Caroline).
 -ancestorOf(Alice,Caroline).
 -ancestorOf(Bob,Alice).

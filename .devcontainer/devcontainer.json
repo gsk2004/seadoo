@@ -1,0 +1,22 @@
+{
+	"name": "seadoo-main",
+	"image": "mcr.microsoft.com/devcontainers/base:bullseye",
+
+	"features": {
+    "ghcr.io/devcontainers/features/python:1": {
+        "version": "latest"
+		}
+	},
+
+
+
+	"forwardPorts": [8080],
+	"portsAttributes": {
+		"8080": {
+			"label": "Ontology Web UI (NiceGUI)",
+			"onAutoForward": "openPreview"
+		}
+	},
+
+	"postCreateCommand": "bash .devcontainer/post_create.sh"
+}

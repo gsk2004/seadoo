@@ -1,0 +1,14 @@
+formulas(assumptions).
+hasChildren(Caroline,Bob).
+hasChildren(Caroline,Alice).
+hasChildren(Bob,David).
+hasSpouse(Caroline,Edward).
+hasSpouse(Edward,Caroline).
+-hasChildren(Bob,Caroline).
+-hasChildren(Alice,Caroline).
+-hasChildren(David,Bob).
+-hasSpouse(Caroline,Bob).
+-hasSpouse(Bob,Caroline).
+end_of_list.
+
+#issue comes since hasChildren cannot be reflexive but quasi_order requires to be reflexive.
