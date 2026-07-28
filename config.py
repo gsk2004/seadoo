@@ -9,18 +9,16 @@ GENERAL INSTRUCTIONS:
 
 
 '''
+
 REQUIRED FOR ALL OF seadoo:
 - path: The directory where seadoo is located 
 - repo: Where the theory files are located. Each subdirectory name should match what is found in colore/ontologies/
 '''
-import os
-os.environ['PROVER9'] = r'enter path of prover9'
+os.environ['PROVER9'] = r'C:\Users\gk 2\Prover9-Mace4\bin-win32'
 
-path = "enter path of seadoo folder here"
+path = "/workspaces/seadoo-main"
 repo = os.path.join(os.path.sep, path,  'ontologies')
-
-
-
+clif_repo = os.path.expanduser("~/colore/ontologies")
 
 '''
 USED FOR seadoo/search MODULE:
@@ -40,12 +38,45 @@ alt = os.path.join(os.path.sep, repo, hierarchy, 'alt-metatheory.owl')
 meta = os.path.join(os.path.sep, repo, hierarchy, 'metatheory.owl')
 db = {
     'host': 'localhost',
-    'schema': 'seadoo', 
-    'user': 'root', 
-    'pw': 'enter password here',
+    'schema': 'seadoo_main',
+    'user': 'seadoo',
+    'pw': 'pw',
     'port': 3306,
 }
+'''
+for issues with sql database,
+1. type sudo mysql or sudo mysql -e "CREATE DATABASE IF NOT EXISTS seadoo_main;"
+2. type (in mysql): 
+CREATE USER 'seadoo'@'localhost' IDENTIFIED BY 'pw';
 
+GRANT ALL PRIVILEGES ON seadoo_main.* TO 'seadoo'@'localhost';
+
+FLUSH PRIVILEGES;
+
+
+
+2.1 if it says "no module named config' or 'create_schema.py: no such file', then type (in bash)
+PYTHONPATH=. python3 db/create_schema.py --no-insert
+
+2.2 DROP USER IF EXISTS 'seadoo'@'localhost';
+
+CREATE USER 'seadoo'@'localhost' IDENTIFIED BY 'pw';
+
+GRANT ALL PRIVILEGES ON seadoo_main.* TO 'seadoo'@'localhost';
+
+FLUSH PRIVILEGES;
+
+3. type (in bash):
+mysql -u seadoo -p < create_schema.py
+
+4. enter password pw
+
+--------------------------------------
+to run the gui:
+cd /workspaces/seadoo-main
+pip install -r requirements.txt --break-system-packages
+python3 nicegui/app.py
+'''
 
 '''
 USED FOR seadoo/relationship MODULE
@@ -66,4 +97,3 @@ USED FOR seadoo/insertion MODULE
 '''
 new_t = ''
 function = 1
-
