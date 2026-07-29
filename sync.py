@@ -21,6 +21,7 @@ Adjust CSV_NAME below if your existing CSVs use a different naming convention.
 """
 
 import argparse
+import csv
 import hashlib
 import importlib
 import json
@@ -75,23 +76,53 @@ def expected_in_path(relpath, clif_root):
     return os.path.join(hierarchy_dir, base_name + clif_pipeline.P9_ENDING)
 
 
+def _chain_theories(hierarchy_dir, cache):
+    """Set of theory names (no .in suffix) present in this hierarchy's
+    chain_decomposition.csv, cached per hierarchy_dir within one run to
+    avoid re-reading the same CSV for every file in a large hierarchy."""
+    if hierarchy_dir in cache:
+        return cache[hierarchy_dir]
+
+    theories = set()
+    csv_path = os.path.join(hierarchy_dir, "chain_decomposition.csv")
+    if os.path.exists(csv_path):
+        with open(csv_path, "r") as f:
+            rows = list(csv.reader(f))
+        for row in rows[1:]: # skip header row
+            for cell in row:
+                if cell.strip():
+                    theories.add(cell.strip())
+
+    cache[hierarchy_dir] = theories
+    return theories
+
+
 def diff_manifest(old_manifest, current_files, clif_root):
     """
     :return: (new_relpaths, changed_relpaths, removed_relpaths, current_hashes)
 
-    A file counts as "changed" (needs retranslation) not only when its hash
-    differs from the manifest, but also when its hash matches yet its
-    expected .in output is missing on disk. This handles the case where the
-    destination directory (e.g. ~/colore, which is NOT part of the persisted
-    /workspaces bind mount) gets wiped and re-cloned fresh -- the .clif
-    source files come back byte-identical (same hash), but every previously
-    generated .in file and chain_decomposition.csv is gone. Without this
-    check, sync.py would see "hash unchanged" and silently skip retranslating
-    everything, even though none of the outputs actually exist anymore.
+    A file counts as "changed" (needs retranslation + reinsertion) not only
+    when its hash differs from the manifest, but also when:
+      1. its hash matches yet its expected .in output is missing on disk.
+         Handles ~/colore (not part of the persisted /workspaces bind mount)
+         getting wiped and re-cloned fresh -- the .clif source files come
+         back byte-identical (same hash), but every previously generated
+         .in file and chain_decomposition.csv is gone.
+      2. its .in file exists, but its theory never actually made it into
+         chain_decomposition.csv. Handles a run that got interrupted (killed,
+         terminal closed, container restarted) mid-insertion: translation for
+         a hierarchy can fully succeed (so every .in file exists) while the
+         hierarchy's insertion loop -- which runs afterward and is much
+         slower, since it's real Prover9/Mace4 calls -- never got past the
+         bootstrap theory. Without this check, such a hierarchy looks
+         identical to a fully-completed one on the next run (hash matches,
+         .in file exists) and would be silently skipped forever, stuck at
+         "1 theory only" no matter how many times sync.py is re-run.
     """
     new_files = []
     changed_files = []
     current_hashes = {}
+    chain_cache = {}
 
     for relpath, abspath in current_files.items():
         current_hash = compute_hash(abspath)
@@ -99,15 +130,30 @@ def diff_manifest(old_manifest, current_files, clif_root):
 
         if relpath not in old_manifest:
             new_files.append(relpath)
-        elif old_manifest[relpath] != current_hash:
+            continue
+        if old_manifest[relpath] != current_hash:
             changed_files.append(relpath)
-        elif not os.path.exists(expected_in_path(relpath, clif_root)):
+            continue
+
+        in_path = expected_in_path(relpath, clif_root)
+        if not os.path.exists(in_path):
             LOGGER.warning(
                 "%s hash unchanged but expected output %s is missing -- "
                 "retranslating (destination directory likely got wiped, "
                 "e.g. a container rebuild that re-cloned ~/colore fresh)",
-                relpath, expected_in_path(relpath, clif_root))
+                relpath, in_path)
             changed_files.append(relpath)
+            continue
+
+        hierarchy_dir = hierarchy_dir_for(relpath, clif_root)
+        theory_name = os.path.splitext(os.path.basename(in_path))[0]
+        if theory_name not in _chain_theories(hierarchy_dir, chain_cache):
+            LOGGER.warning(
+                "%s translated (.in exists) but '%s' never made it into %s -- "
+                "likely an interrupted previous run. Retrying insertion.",
+                relpath, theory_name, os.path.join(hierarchy_dir, "chain_decomposition.csv"))
+            changed_files.append(relpath)
+            continue
 
     removed_files = [r for r in old_manifest if r not in current_files]
 
@@ -179,7 +225,7 @@ def run(clif_root, manifest_path, dry_run=False):
         print("\nThe following .clif files were removed from the source repo.")
         print("Poset removal is NOT automated -- review these by hand:")
         for r in removed_files:
-            print("  ", r)
+            print(" ", r)
 
     if dry_run:
         print("\nDry run -- no translation or insertion performed.")
@@ -189,7 +235,7 @@ def run(clif_root, manifest_path, dry_run=False):
     # .in filename) landed in which hierarchy directory, in the order they
     # were translated. Each entry also carries its source relpath, so an
     # insertion failure downstream can exclude it from the manifest too.
-    to_insert = {}   # hierarchy_dir -> [(theory .in filename, source relpath)]
+    to_insert = {} # hierarchy_dir -> [(theory .in filename, source relpath)]
     translation_failures = []
     failed_relpaths = set()
 
@@ -245,13 +291,13 @@ def run(clif_root, manifest_path, dry_run=False):
               "before this run). Their source .clif files were excluded from the "
               "manifest and will be retried next run:".format(len(insertion_failures)))
         for hierarchy_dir, theory_names, msg in insertion_failures:
-            print("  {} (theories: {}): {}".format(hierarchy_dir, theory_names, msg))
+            print(" {} (theories: {}): {}".format(hierarchy_dir, theory_names, msg))
 
     if translation_failures:
         print("\n{} file(s) FAILED translation -- not inserted into any poset:".format(
             len(translation_failures)))
         for clif_path, msg in translation_failures:
-            print("  {}: {}".format(clif_path, msg))
+            print(" {}: {}".format(clif_path, msg))
 
     # drop removed files from the manifest, and record success for anything
     # that translated cleanly. Anything in failed_relpaths is deliberately
@@ -282,4 +328,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    

@@ -11,7 +11,7 @@ from mysql.connector import Error
 from nltk.sem import Expression
 read_expr = Expression.fromstring
 
-REPO_PATH = config.repo
+REPO_PATH = config.clif_repo
 SEARCH_PATH = config.search
 EX_PATH = config.examples
 CEX_PATH = config.counterexamples
@@ -181,7 +181,7 @@ def generate_model(theory_lines, new_dir, file_name):
 
 
 def get_input_chains(hier):
-    chains_df = pd.read_csv(os.path.join(os.path.sep, REPO_PATH, hier, hier + ".csv"))
+    chains_df = pd.read_csv(os.path.join( REPO_PATH, hier, "chain_decomposition.csv"))
     chains_list = []
     [chains_list.append(row) for row in chains_df]
     chains_list = chains_df.values.tolist()

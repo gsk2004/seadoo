@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
 
-git config --global user.name "gsk2004"
+#git config --global user.name "gsk2004"
 
-git config --global user.email "gauri.karajagi@gmail.com"
+#git config --global user.email "gauri.karajagi@gmail.com"
 
 sudo apt-get update
 sudo apt-get install -y default-mysql-client default-mysql-server git build-essential wget

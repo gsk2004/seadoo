@@ -16,7 +16,7 @@ REQUIRED FOR ALL OF seadoo:
 '''
 os.environ['PROVER9'] = r'C:\Users\gk 2\Prover9-Mace4\bin-win32'
 
-path = "/workspaces/seadoo-main"
+path = "/workspaces/seadoo"
 repo = os.path.join(os.path.sep, path,  'ontologies')
 clif_repo = os.path.expanduser("~/colore/ontologies")
 

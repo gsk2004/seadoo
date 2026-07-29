@@ -103,7 +103,7 @@ def nondecomp() -> dict:
 
 def get_trunk_theories(hier: str) -> list: 
     trunk_theory_list = []
-    path = os.path.join(os.path.sep, REPO_PATH, hier, hier + ".csv") #change ater, chain_decomposition.csv
+    path = os.path.join( REPO_PATH, hier, "chain)decomposition.csv") #change ater, chain_decomposition.csv
     try:
         trunk_df = pd.read_csv(path, usecols=[1]).values.tolist()
     except FileNotFoundError: 
