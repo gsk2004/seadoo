@@ -1,0 +1,184 @@
+[33mcommit 2c6591c4de0c3ad894d65a2da80a5e371fce9f92[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: gsk2004 <gauri.karajagi@gmail.com>
+Date:   Wed Jul 29 00:36:57 2026 +0000
+
+    update2
+
+[1mdiff --git a/.devcontainer/devcontainer-lock.json b/.devcontainer/devcontainer-lock.json[m
+[1mindex b23cef5..afacdf7 100644[m
+[1m--- a/.devcontainer/devcontainer-lock.json[m
+[1m+++ b/.devcontainer/devcontainer-lock.json[m
+[36m@@ -6,4 +6,4 @@[m
+       "integrity": "sha256:fbcad6955caeecc5ad3f7886baf652e25cba5225a6c4c2287c536de2e5607511"[m
+     }[m
+   }[m
+[31m-}[m
+[32m+[m[32m}[m
+\ No newline at end of file[m
+[1mdiff --git a/.devcontainer/post_create.sh b/.devcontainer/post_create.sh[m
+[1mindex 75aa2b6..ef80301 100644[m
+[1m--- a/.devcontainer/post_create.sh[m
+[1m+++ b/.devcontainer/post_create.sh[m
+[36m@@ -1,9 +1,9 @@[m
+ #!/bin/bash[m
+ set -e[m
+ [m
+[31m-git config --global user.name "gsk2004"[m
+[32m+[m[32m#git config --global user.name "gsk2004"[m
+ [m
+[31m-git config --global user.email "gauri.karajagi@gmail.com"[m
+[32m+[m[32m#git config --global user.email "gauri.karajagi@gmail.com"[m
+ [m
+ sudo apt-get update[m
+ sudo apt-get install -y default-mysql-client default-mysql-server git build-essential wget[m
+[1mdiff --git a/audit_coverage.py b/audit_coverage.py[m
+[1mnew file mode 100644[m
+[1mindex 0000000..78d7ebd[m
+[1m--- /dev/null[m
+[1m+++ b/audit_coverage.py[m
+[36m@@ -0,0 +1,90 @@[m
+[32m+[m[32m#!/usr/bin/env python3[m
+[32m+[m[32m"""[m
+[32m+[m[32maudit_coverage.py[m
+[32m+[m
+[32m+[m[32mCompares, for every hierarchy in the COLORE checkout, how many .clif files[m
+[32m+[m[32mexist versus how many distinct theories actually made it into that[m
+[32m+[m[32mhierarchy's chain_decomposition.csv. Read-only -- makes no changes.[m
+[32m+[m
+[32m+[m[32mUsage:[m
+[32m+[m[32m    python3 audit_coverage.py --colore-ontologies ~/colore/ontologies[m
+[32m+[m
+[32m+[m[32mOutput: a table sorted by the biggest gaps first (most missing theories),[m
+[32m+[m[32mso you can see at a glance whether cases like hyfo_flow are common or rare,[m
+[32m+[m[32mand a summary count of hierarchies with no gap / some gap / no CSV at all.[m
+[32m+[m[32m"""[m
+[32m+[m
+[32m+[m[32mimport argparse[m
+[32m+[m[32mimport csv[m
+[32m+[m[32mimport os[m
+[32m+[m
+[32m+[m
+[32m+[m[32mdef count_clif_files(hierarchy_dir):[m
+[32m+[m[32m    return len([f for f in os.listdir(hierarchy_dir)[m
+[32m+[m[32m                if f.endswith(".clif") and os.path.isfile(os.path.join(hierarchy_dir, f))])[m
+[32m+[m
+[32m+[m
+[32m+[m[32mdef count_chain_theories(hierarchy_dir):[m
+[32m+[m[32m    csv_path = os.path.join(hierarchy_dir, "chain_decomposition.csv")[m
+[32m+[m[32m    if not os.path.exists(csv_path):[m
+[32m+[m[32m        return None[m
+[32m+[m[32m    theories = set()[m
+[32m+[m[32m    with open(csv_path, "r") as f:[m
+[32m+[m[32m        rows = list(csv.reader(f))[m
+[32m+[m[32m    for row in rows[1:]: # skip header row[m
+[32m+[m[32m        for cell in row:[m
+[32m+[m[32m            if cell.strip():[m
+[32m+[m[32m                theories.add(cell.strip())[m
+[32m+[m[32m    return len(theories)[m
+[32m+[m
+[32m+[m
+[32m+[m[32mdef main():[m
+[32m+[m[32m    parser = argparse.ArgumentParser()[m
+[32m+[m[32m    parser.add_argument("--colore-ontologies", type=str, required=True)[m
+[32m+[m[32m    args = parser.parse_args()[m
+[32m+[m
+[32m+[m[32m    root = os.path.expanduser(args.colore_ontologies)[m
+[32m+[m[32m    results = [][m
+[32m+[m
+[32m+[m[32m    for name in sorted(os.listdir(root)):[m
+[32m+[m[32m        hierarchy_dir = os.path.join(root, name)[m
+[32m+[m[32m        if not os.path.isdir(hierarchy_dir):[m
+[32m+[m[32m            continue[m
+[32m+[m[32m        clif_count = count_clif_files(hierarchy_dir)[m
+[32m+[m[32m        if clif_count == 0:[m
+[32m+[m[32m            continue[m
+[32m+[m[32m        chain_count = count_chain_theories(hierarchy_dir)[m
+[32m+[m[32m        results.append((name, clif_count, chain_count))[m
+[32m+[m
+[32m+[m[32m    no_csv = [r for r in results if r[2] is None][m
+[32m+[m[32m    with_gap = [r for r in results if r[2] is not None and r[2] < r[1]][m
+[32m+[m[32m    clean = [r for r in results if r[2] is not None and r[2] >= r[1]][m
+[32m+[m
+[32m+[m[32m    print("=" * 70)[m
+[32m+[m[32m    print("SUMMARY")[m
+[32m+[m[32m    print("=" * 70)[m
+[32m+[m[32m    print("Total hierarchies with .clif files: {}".format(len(results)))[m
+[32m+[m[32m    print(" No chain_decomposition.csv yet: {}".format(len(no_csv)))[m
+[32m+[m[32m    print(" CSV exists but missing theories: {}".format(len(with_gap)))[m
+[32m+[m[32m    print(" CSV theory count >= .clif count: {}".format(len(clean)))[m
+[32m+[m[32m    print()[m
+[32m+[m
+[32m+[m[32m    if with_gap:[m
+[32m+[m[32m        print("=" * 70)[m
+[32m+[m[32m        print("HIERARCHIES WITH MISSING THEORIES (biggest gap first)")[m
+[32m+[m[32m        print("=" * 70)[m
+[32m+[m[32m        print("{:<40} {:>10} {:>10} {:>8}".format("hierarchy", ".clif files", "in chain", "missing"))[m
+[32m+[m[32m        for name, clif_count, chain_count in sorted(with_gap, key=lambda r: r[1] - r[2], reverse=True):[m
+[32m+[m[32m            print("{:<40} {:>10} {:>10} {:>8}".format(name, clif_count, chain_count, clif_count - chain_count))[m
+[32m+[m[32m        print()[m
+[32m+[m
+[32m+[m[32m    if no_csv:[m
+[32m+[m[32m        print("=" * 70)[m
+[32m+[m[32m        print("HIERARCHIES WITH NO chain_decomposition.csv AT ALL")[m
+[32m+[m[32m        print("=" * 70)[m
+[32m+[m[32m        for name, clif_count, _ in sorted(no_csv, key=lambda r: r[1], reverse=True):[m
+[32m+[m[32m            print("{:<40} {:>10} .clif files".format(name, clif_count))[m
+[32m+[m
+[32m+[m
+[32m+[m[32mif __name__ == "__main__":[m
+[32m+[m[32m    main()[m
+\ No newline at end of file[m
+[1mdiff --git a/config.py b/config.py[m
+[1mindex 19ed573..8cad18d 100644[m
+[1m--- a/config.py[m
+[1m+++ b/config.py[m
+[36m@@ -16,7 +16,7 @@[m [mREQUIRED FOR ALL OF seadoo:[m
+ '''[m
+ os.environ['PROVER9'] = r'C:\Users\gk 2\Prover9-Mace4\bin-win32'[m
+ [m
+[31m-path = "/workspaces/seadoo-main"[m
+[32m+[m[32mpath = "/workspaces/seadoo"[m
+ repo = os.path.join(os.path.sep, path,  'ontologies')[m
+ clif_repo = os.path.expanduser("~/colore/ontologies")[m
+ [m
+[1mdiff --git a/populate_hierarchies.py b/populate_hierarchies.py[m
+[1mindex 95e8c43..5b899e2 100644[m
+[1m--- a/populate_hierarchies.py[m
+[1m+++ b/populate_hierarchies.py[m
+[36m@@ -1,98 +1,3 @@[m
+[31m-<<<<<<< HEAD[m
+[31m-"""[m
+[31m-populate_hierarchies.py[m
+[31m-[m
+[31m-Populates the `hierarchies` MySQL table (db/create.sql) from the COLORE[m
+[31m-checkout and any chain-decomposition CSVs sync.py has generated so far.[m
+[31m-[m
+[31m-IMPORTANT: this table only stores per-hierarchy METADATA (see db/create.sql):[m
+[31m-  hierarchy_name, nondecomp_hierarchies, num_prim_relations, relation_name,[m
+[31m-  root_theory[m
+[31m-It does NOT store the actual theorem/chain ordering -- that stays in the[m
+[31m-per-hierarchy chain_decomposition.csv files sync.py maintains. Don't confuse[m
+[31m-the two: this script is populating a lightweight index of hierarchies, not[m
+[31m-migrating the poset itself into the database.[m
+[31m-"""[m
+[31m-[m
+[31m-import argparse[m
+[31m-import csv[m
+[31m-import os[m
+[31m-[m
+[31m-import config[m
+[31m-from db import create_schema[m
+[31m-[m
+[31m-CSV_NAME = "chain_decomposition.csv"[m
+[31m-[m
+[31m-[m
+[31m-def find_hierarchies(colore_ontologies_root):[m
+[31m-    """Each subdirectory under ontologies/ is one hierarchy."""[m
+[31m-    return sorted([m
+[31m-        d for d in os.listdir(colore_ontologies_root)[m
+[31m-        if os.path.isdir(os.path.join(colore_ontologies_root, d))[m
+[31m-    )[m
+[31m-[m
+[31m-[m
+[31m-def root_theory_for(hierarchy_dir):[m
+[31m-    """First theory listed in this hierarchy's chain CSV,
