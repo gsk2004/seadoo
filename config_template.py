@@ -14,7 +14,7 @@ REQUIRED FOR ALL OF seadoo:
 - path: The directory where seadoo is located 
 - repo: Where the theory files are located. Each subdirectory name should match what is found in colore/ontologies/
 '''
-os.environ['PROVER9'] = '<FILL PATH>'
+os.environ['PROVER9'] = '/usr/local/bin'
 
 path = "/workspaces/seadoo-main"
 repo = os.path.join(os.path.sep, path,  'ontologies')
@@ -76,6 +76,17 @@ to run the gui:
 cd /workspaces/seadoo-main
 pip install -r requirements.txt --break-system-packages
 python3 nicegui/app.py
+
+-------------------------------
+if macleod doesnt import properly:
+1. rm -rf ~/macleod-src
+git clone https://github.com/thahmann/macleod.git ~/macleod-src
+pip install -e ~/macleod-src
+python3 -c "import macleod; print('OK')"
+
+2. mkdir -p ~/macleod
+cp .devcontainer/macleod_linux.conf ~/macleod/macleod_linux.conf
+sed -i "s|^path:.*|path: $HOME/colore/ontologies|; s|^home:.*|home: $HOME/|" ~/macleod/macleod_linux.conf
 '''
 
 '''

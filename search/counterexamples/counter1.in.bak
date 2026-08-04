@@ -1,0 +1,14 @@
+formulas(assumptions).
+ancestorOf(x,u).
+ancestorOf(x,z).
+ancestorOf(u,y).
+ancestorOf(z,y).
+ancestorOf(x,y).
+-ancestorOf(u,z).
+-ancestorOf(z,u).
+-ancestorOf(y,x).
+-ancestorOf(y,u).
+-ancestorOf(y,z).
+-ancestorOf(u,x).
+-ancestorOf(z,x).
+end_of_list.

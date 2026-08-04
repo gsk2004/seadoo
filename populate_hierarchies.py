@@ -84,7 +84,7 @@ def run(colore_ontologies_root, clif_repo):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--colore-ontologies", type=str,
-                         default=os.path.join("/workspace/colore", "ontologies"))
+                         default=config.clif_repo)
     parser.add_argument("--clif-repo", type=str, default=config.clif_repo)
     args = parser.parse_args()
     run(args.colore_ontologies, args.clif_repo)

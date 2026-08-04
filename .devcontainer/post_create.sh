@@ -1,9 +1,7 @@
 #!/bin/bash
 set -e
 
-#git config --global user.name "gsk2004"
 
-#git config --global user.email "gauri.karajagi@gmail.com"
 
 sudo apt-get update
 sudo apt-get install -y default-mysql-client default-mysql-server git build-essential wget
@@ -57,13 +55,14 @@ which prover9 && which mace4 && which interpformat && which prooftrans   # fail 
 # COLORE and macleod's SOURCE
 git clone https://github.com/gruninger/colore.git ~/colore
 git clone https://github.com/thahmann/macleod.git ~/macleod-src
-pip install -e ~/macleod-src
+python3 -m pip install -e ~/macleod-src
 
 # macleod reads its own config from a hardcoded path: ~/macleod/macleod_linux.conf
 mkdir -p ~/macleod
-cp /workspaces/seadoo-main/.devcontainer/macleod_linux.conf ~/macleod/macleod_linux.conf
+cp .devcontainer/macleod_linux.conf ~/macleod/macleod_linux.conf
+sed -i "s|^path:.*|path: $HOME/colore/ontologies|; s|^home:.*|home: $HOME/|" ~/macleod/macleod_linux.conf
 
 cd /workspaces/seadoo-main
-pip install -r requirements.txt nicegui mysql-connector-python
+python3 -m pip install -r requirements.txt nicegui mysql-connector-python
 
 echo "Container ready. COLORE is at ~/colore, macleod source at ~/macleod-src, macleod config at ~/macleod/macleod_linux.conf"
