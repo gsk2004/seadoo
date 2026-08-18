@@ -1,0 +1,15 @@
+formulas(assumptions).
+leq(bottom,bottom).
+leq(a,a).
+leq(b,b).
+leq(bottom,a).
+leq(bottom,b).
+leq(a,b).
+-leq(a,bottom).
+-leq(b,bottom).
+-leq(b,a). 
+end_of_list.
+
+formulas(goals).
+leq(b,a).
+end_of_list.

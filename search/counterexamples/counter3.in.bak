@@ -1,4 +1,0 @@
-formulas(assumptions).
-hasFriend(Jim,David).
--hasFriend(Jim,David).
-end_of_list.

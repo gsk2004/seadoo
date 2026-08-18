@@ -1,0 +1,10 @@
+formulas(assumptions).
+leq(a,a).
+leq(b,b).
+-leq(a,b).
+-leq(b,a).
+end_of_list.
+
+%formulas(goals).
+%leq(a,b).
+%end_of_list.

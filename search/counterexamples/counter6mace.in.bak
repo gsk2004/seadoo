@@ -1,0 +1,13 @@
+formulas(assumptions).
+leq(bottom,bottom).
+leq(a,a).
+leq(b,b).
+leq(bottom,a).
+leq(bottom,b).
+-leq(a,b).
+-leq(b,a).
+-leq(a,bottom).
+-leq(b,bottom).
+end_of_list.
+
+% test 6

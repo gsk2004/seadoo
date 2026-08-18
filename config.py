@@ -52,8 +52,7 @@ CREATE USER 'seadoo'@'localhost' IDENTIFIED BY 'pw';
 GRANT ALL PRIVILEGES ON seadoo_main.* TO 'seadoo'@'localhost';
 
 FLUSH PRIVILEGES;
-
-
+ 
 
 2.1 if it says "no module named config' or 'create_schema.py: no such file', then type (in bash)
 PYTHONPATH=. python3 db/create_schema.py --no-insert
@@ -76,6 +75,9 @@ to run the gui:
 cd /workspaces/seadoo-main
 pip install -r requirements.txt --break-system-packages
 python3 nicegui/app.py
+
+-------------------------------------
+make sure to have the definitions directory: mkdir -p /workspaces/seadoo/definitions
 '''
 
 '''
@@ -97,3 +99,4 @@ USED FOR seadoo/insertion MODULE
 '''
 new_t = ''
 function = 1
+     

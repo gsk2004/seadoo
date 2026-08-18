@@ -56,7 +56,7 @@ ALT_FILE = config.alt
 META_FILE = config.meta
 
 
-@timeout_decorator.timeout(30)
+@timeout_decorator.timeout(8)
 def build_model(mb: MaceCommand): 
     return mb.build_model()
 
@@ -66,7 +66,7 @@ def consistency(lines_t1, lines_t2, new_dir):
     assumptions = read_expr(lines[0])
 
     # look for 10 models before timeout
-    mb = MaceCommand(None, [assumptions], max_models=10)
+    mb = MaceCommand(None, [assumptions], max_models=3)
     for c, added in enumerate(lines[1:]):
         mb.add_assumptions([read_expr(added)])
 
@@ -88,7 +88,7 @@ def consistency(lines_t1, lines_t2, new_dir):
 
     # no model exists, or Mace reached max number of models
     if model is False:
-        prover = Prover9Command(None, [assumptions], timeout=30)
+        prover = Prover9Command(None, [assumptions], timeout=8)
         for c, added in enumerate(lines[1:]):
             prover.add_assumptions([read_expr(added)])
 
@@ -126,7 +126,7 @@ def entailment(lines_t1, lines_t2, new_dir):
         assumptions = read_expr(lines_t1[0])
         goals = read_expr(goal)
 
-        prover = Prover9Command(goals, [assumptions], timeout=30)
+        prover = Prover9Command(goals, [assumptions], timeout=8)
 
         # add axioms into assumptions
         for c, added in enumerate(lines_t1[1:]):
@@ -151,7 +151,7 @@ def entailment(lines_t1, lines_t2, new_dir):
             entail += 1
             # saved_proofs.clear()
 
-            mb = MaceCommand(goals, [assumptions], max_models=10)
+            mb = MaceCommand(goals, [assumptions], max_models=3)
             for c, added in enumerate(lines_t1[1:]):
                 mb.add_assumptions([read_expr(added)])
 

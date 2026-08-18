@@ -11,4 +11,8 @@ ancestorOf(x,y).
 -ancestorOf(y,z).
 -ancestorOf(u,x).
 -ancestorOf(z,x).
+-ancestorOf(x,x).
+-ancestorOf(y,y).
+-ancestorOf(z,z).
+-ancestorOf(u,u).
 end_of_list.
