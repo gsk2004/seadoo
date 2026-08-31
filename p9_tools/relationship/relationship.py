@@ -46,6 +46,14 @@ def _preprocess(s):
     s = ''.join(out)
     return re.sub(r'\b(all|exists)\s+([a-zA-Z0-9_]+)\s+', r'\1 \2 . ', s)
 
+def _expand_quantifier(m):
+        keyword = m.group(1)
+        variables = m.group(2).split()
+        return ''.join('{} {} . '.format(keyword, v) for v in variables)
+ 
+    
+        return re.sub(r'\b(all|exists)((?:\s+(?!(?:all|exists)\b)[a-zA-Z][a-zA-Z0-9_]*\b(?!\())+)\s*\.?',
+                  _expand_quantifier, s)
 
 read_expr = lambda s: Expression.fromstring(_preprocess(s))
 

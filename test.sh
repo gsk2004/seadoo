@@ -2,9 +2,7 @@
 # test_pipeline.sh
 #
 # Run this INSIDE the devcontainer (Reopen in Container first), from the
-# repo root. Sanity-checks the pipeline in increasing order of scope, so a
-# failure tells you roughly where to look instead of failing silently 200
-# hierarchies in.
+# repo root. 
 set -e
 
 echo "=== 0. Confirming COLORE and macleod are where post_create.sh put them ==="

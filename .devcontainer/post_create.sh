@@ -10,27 +10,12 @@ sudo service mariadb start || echo "WARNING: mariadb service failed to start -- 
 
 cd ~
 
-# Prover9/Mace4 -- not available as apt packages on bullseye, build from source.
-# `make all` fails on modern gcc/ld for two separate reasons:
-#   1. gcc 10+ defaults to -fno-common, breaking this 2009-era code -- fixed
-#      with CFLAGS=-fcommon.
-#   2. prover9's own Makefile links `-lm` BEFORE the object files that need
-#      it (round/ceil), which modern ld's strict left-to-right symbol
-#      resolution can't handle -- `make all` still fails at that final link
-#      step even with -fcommon, so we let it fail (|| true) and relink
-#      prover9 by hand afterward with -lm moved to the end. mace4 builds and
-#      links fine on its own and doesn't need this.
+
 wget http://www.cs.unm.edu/~mccune/mace4/download/LADR-2009-11A.tar.gz
 tar xzf LADR-2009-11A.tar.gz
 cd LADR-2009-11A
 
-# `make all` at the top level runs subdirectories in order: ladr -> mace4.src
-# -> provers.src -> apps.src, and stops the whole recipe the instant any one
-# of them fails (no -k flag). provers.src ALWAYS fails here (see below), which
-# means apps.src -- and everything after it -- never gets built by this call.
-# `|| true` only stops the script itself from exiting; it does NOT make `make`
-# continue past the failure. So provers.src and apps.src both need to be
-# built explicitly afterward, standalone.
+
 make all CFLAGS=-fcommon || true
 
 

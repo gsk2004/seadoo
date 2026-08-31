@@ -14,7 +14,7 @@ REQUIRED FOR ALL OF seadoo:
 - path: The directory where seadoo is located 
 - repo: Where the theory files are located. Each subdirectory name should match what is found in colore/ontologies/
 '''
-os.environ['PROVER9'] = r'C:\Users\gk 2\Prover9-Mace4\bin-win32'
+os.environ['PROVER9'] = '/usr/local/bin'
 
 path = "/workspaces/seadoo"
 repo = os.path.join(os.path.sep, path,  'ontologies')
@@ -78,6 +78,15 @@ python3 nicegui/app.py
 
 -------------------------------------
 make sure to have the definitions directory: mkdir -p /workspaces/seadoo/definitions
+--------------------------------------
+to run hashemi:
+python3 -c "
+import config
+config.hierarchy = 'orderings'
+from search.hashemi import hashemi
+results = hashemi('orderings', report=True)
+print(''.join(results))
+"
 '''
 
 '''
@@ -94,7 +103,7 @@ t2 = ''
 
 '''
 USED FOR seadoo/insertion MODULE
-- new_t: a new theory to be inserted into an existing hierarchy e.g., quasi_order.in
+- new_t: a new theory to be inserted into an ex isting hierarchy e.g., quasi_order.in
 - function: 1 to insert a new theory, 2 to find the equivalent theory to new_t. 1 by default
 '''
 new_t = ''
